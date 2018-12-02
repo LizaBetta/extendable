@@ -4,7 +4,7 @@
 
 <xsl:template match="/">  
 <html>
-    <head>     
+    <body>     
         <script type="text/javascript">
             function extension(id,type,auto) {
                 if (id=='') return;
@@ -120,9 +120,6 @@
         <title>
             <xsl:value-of select="Essay/Title" />(расширяемое эссе)
         </title>
-    </head>
-    
-    <body>
         <center>
             <h1>
                 <xsl:value-of select="Essay/Title" /><br /><small>(расширяемое эссе)</small>

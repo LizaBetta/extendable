@@ -147,6 +147,10 @@ function createBasic (text, id){
   convertXmlToHtml();
 }
 
+function changeNodeText(text, id):
+  node = myXML.document.getElementById(id);
+  node.innerText = t;
+
 function convertXmlToHtml(){
   richTextField = xsltProcessor.transformToDocument(myXML);
 }
