@@ -2,6 +2,13 @@ var showingSourceCode = false;
 var isInEditMode = true;
 var externalDoc = null;
 var myXML = null;
+var xsltProcessor = new XSLTProcessor();
+
+var myXMLHTTPRequest = new XMLHttpRequest();
+myXMLHTTPRequest.open("GET", "ExtEss/ExtEss.xsl", false);
+myXMLHTTPRequest.send(null);
+var xslRef = myXMLHTTPRequest.responseXML;
+xsltProcessor.importStylesheet(xslRef);
 
 function processFiles(files) {
   var file = files[0];
@@ -106,3 +113,58 @@ function toggleEdit () {
     isInEditMode = true;
   }
 }
+
+function randomString() {
+  var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  var string_length = 8;
+  var randomstring = '';
+  for (var i=0; i<string_length; i++) {
+    var rnum = Math.floor(Math.random() * chars.length);
+    randomstring += chars.substring(rnum,rnum+1);
+  }
+  document.randform.randomfield.value = randomstring;
+}
+
+function createBasic (text, id){
+  var paragraph = document.createElement("Paragraph");
+  var att = document.createAttribute("id");       
+  att.value = randomstring();                           
+  paragraph.setAttributeNode(att);  
+  var basic = document.createElement("Basic");
+  var att2 = document.createAttribute("id");       
+  att2.value = randomstring();                           
+  basic.setAttributeNode(att2); 
+  var t =  document.createTextNode(text); 
+  basic.appendChild(t);
+  paragraph.appendChild(basic);
+  if (! id == ""){
+    node = myXML.document.getElementById(id);
+  }
+  else{
+    node = myXML.document.getElementsByTagName('body')[0]; 
+  }
+  node.appendChild(basic);
+  convertXmlToHtml();
+}
+
+function convertXmlToHtml(){
+  richTextField = xsltProcessor.transformToDocument(myXML);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
