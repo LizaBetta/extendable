@@ -185,7 +185,7 @@
                                             <xsl:if test="Extension[1]/@type='Cite'">литература</xsl:if>
                                         </xsl:variable>
                                         <td align="center" bgcolor="#ffffff">
-                                            <p style="cursor:pointer;" title="{$prompt}" onClick="extension('{generate-id(.)}','{Extension[1]/@type}',false);var t=findTop('{generate-id(.)}.{Extension[1]/@type}');extension('{generate-id(//Paragraph[@label=$link])}','{//Paragraph[@label=$link]/Extension[1]/@type}',true);window.scrollBy(0,findTop('{generate-id(.)}.{Extension[1]/@type}')-t);t=findTop('{generate-id(.)}.{Extension[1]/@type}');extension('{generate-id(//Paragraph[@label=$link2])}','{//Paragraph[@label=$link2]/Extension[1]/@type}',true);window.scrollBy(0,findTop('{generate-id(.)}.{Extension[1]/@type}')-t);">
+                                            <p style="cursor:pointer;" title="{$prompt}" onClick="extension('{generate-id(.)}','{Extension[1]/@type}',false);var t=findTop('{generate-id(.)}.{Extension[1]/@type}');extension('{generate-id(//Paragraph[@label=$link])}','{//Paragraph[@label=$link]/Extension[1]/@type}',true);window.scrollBy(0,findTop('{generate-id(.)}.{Extension[1]/@type}')-t);t=findTop('{generate-id(.)}.{Extension[1]/@type}');extension('{generate-id(//Paragraph[@label=$link2])}','{//Paragraph[@label=$link2]/Extension[1]/@type}',true);window.scrollBy(0,findTop('{generate-id(.)}.{Extension[1]/@type}')-t);" contenteditable="false">
                                                 <font color="#CC0000">
                                                     <xsl:choose>
                                                         <xsl:when test="Extension/@type='More'">

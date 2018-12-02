@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html>
   <head>
     <title>Rich text editor in JS</title>
@@ -7,6 +7,117 @@
     <script src="logic.js"></script>
   </head>
   <body onload="enableEditMode();">
+    <script type="text/javascript">
+            function extension(id,type,auto) {
+                if (id=='') return;
+                var obj=document.getElementById(id+".counter");
+                if (auto) { 
+                    obj.value=parseInt(obj.value)+1;
+                    document.getElementById(id + '.' + type + '.BA.p').title="свернуть расширение (блокировано)";
+                    document.getElementById(id + '.' + type + '.B.p').title="свернуть расширение (блокировано)";
+                }
+                i=id + '.' + type;
+                obj=document.getElementById(i);
+                if (document.getElementById(id).style.display=='block') {
+                    document.getElementById(id).style.display = 'none';
+                    if (auto) {
+                        i = id + '.' + type + '.BA';
+                    } 
+                    else {
+                        i = id + '.' + type + '.B';
+                    }
+                    obj.style.display = 'block';
+                    obj=document.getElementById(i);
+                    obj.style.display = 'block';
+                } 
+            }
+        </script>
+        <script type="text/javascript">
+            function question(id,n) {
+                var q=Math.floor(Math.random()*n)+1;
+                document.getElementById(id).style.display = 'none';
+                var i=id + '.Q' +  q.toString();
+                document.getElementById(i).style.display = 'block';
+                document.getElementById(i+'.X').click();
+                document.getElementById(i+'.A').style.display = 'none';
+                document.getElementById(i+'.CA').style.display = 'none';
+                document.getElementById(i+'.E').style.display = 'none';
+            }
+        </script>
+        <script type="text/javascript">
+            function answer(id,sel,correct) {
+                var i, i1;
+                document.getElementById(id+'.E').style.display = 'none';
+                if (sel.selectedIndex==correct)
+                    {i=id + '.CA'; i1=id + '.A'}
+                else
+                    {i=id + '.A'; i1=id + '.CA'};
+                document.getElementById(i).style.display = 'block';
+                document.getElementById(i1).style.display = 'none';
+                sel.selectedIndex=0;
+            }
+        </script>
+        <script type="text/javascript">
+            function clickXbelow(obj) {
+                var but=obj.getElementsByTagName('button')[0];
+                if (null != but) but.click();
+                var elems = obj.getElementsByTagName('div');
+                if (elems.length!=0)
+                    for (var k=elems.length-1;k!=0;k--) {clickXbelow(elems[k])};
+            }
+            function back(id,linkid,linktype) {
+                var pos = id.lastIndexOf(".");
+                var i = id.slice(0, pos);
+                var obj=document.getElementById(i+".counter");
+                if (parseInt(obj.value)!=0) return;
+                var obj=document.getElementById(i);
+                obj.style.display = 'block';
+                obj = document.getElementById(id);             
+                if (obj.style.display == 'none') return;
+                obj.style.display = 'none';
+                var elems = obj.getElementsByTagName('div');
+                if (elems.length!=0)
+                    for (var k=elems.length-1;k!=0;k--) {clickXbelow(elems[k])};
+                i = id + '.B';
+                obj=document.getElementById(i);
+                if (null != obj) {
+                    obj.style.display = 'none'
+                };
+                i = id + '.BA';
+                obj=document.getElementById(i);
+                if (null != obj) {
+                    obj.style.display = 'none'
+                };
+                if (linkid!='') {
+                    obj = document.getElementById(linkid+".counter");
+                    obj.value=parseInt(obj.value)-1;
+                    if (obj.value==0) {
+                        document.getElementById(linkid + '.' + linktype + '.BA.p').title="свернуть расширение";
+                        document.getElementById(linkid + '.' + linktype + '.B.p').title="свернуть расширение";
+                    }
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function explain(id) {
+                document.getElementById(id+'.A').style.display = 'none';
+                document.getElementById(id+'.CA').style.display = 'none';
+                var i=id + '.E';
+                document.getElementById(i).style.display = 'block';
+            }
+        </script>
+        <script type="text/javascript">
+            function findTop(id) {
+                var obj=document.getElementById(id);
+                var curtop = 0;
+
+                while(obj) {
+                    curtop = curtop + parseFloat(obj.offsetTop);
+                    obj = obj.offsetParent;
+                }
+                return curtop;
+            }
+        </script>
     <div>
       <button onclick="execCmd('bold');"><i class="fa fa-bold"></i></button>
       <button onclick="execCmd('italic');"><i class="fa fa-italic"></i></button>
@@ -31,7 +142,8 @@
       <button onclick="execCommandWithArg('createLink', prompt('Enter a URL', 'http://'));"><i class="fa fa-link"></i></button>
       <button onclick="execCmd('unlink');"><i class="fa fa-unlink"></i></button>
       <button onclick="toggleSource();"><i class="fa fa-code"></i></button>
-      
+      <button onclick="toggleEdit();"><i class="fa fa-code"></i></button>
+
       <br />
       <select onchange="execCommandWithArg('fontName', this.value);">
         <option value="Arial">Arial</option>
@@ -51,15 +163,14 @@
         <option value="6">6</option>
         <option value="7">7</option>
       </select>
-      <button onclick="createBasic();">Basic</button>
       Fore Color: <input type="color" onchange="execCommandWithArg('foreColor', this.value);">
       Background: <input type="color"  onchange="execCommandWithArg('hiliteColor', this.value);">
       <button onclick="execCommandWithArg('insertImage', prompt('Enter the image URL', ''));"><i class="fa fa-file-image-o"></i></button>
       <button onclick="execCmd('selectAll');">Select All</button>
 
       <button  onclick="document.getElementById('file-input').click();"><i class="fa fa-download"></i></button>
-      <input id="file-input" type="file" name="name" style="display: none;" onchange="processFiles(this.files)" />
+      <input id="file-input" type="file" name="name" style="display: none;" onchange="LoadXML(this.files)" />
     </div>
-    <iframe name="richTextField" style="width: 1000px; height: 500px;"></iframe>
+    <div id="richTextField" style="width: 1000px; height: 500px;"></div>
   </body>
 </html>
