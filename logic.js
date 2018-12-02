@@ -143,7 +143,7 @@ function createBasic (text, id){
   else{
     node = myXML.document.getElementsByTagName('body')[0]; 
   }
-  node.appendChild(basic);
+  node.appendChild(paragraph);
   convertXmlToHtml();
 }
 
